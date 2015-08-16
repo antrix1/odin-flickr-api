@@ -1,15 +1,15 @@
 module FlickrHelper
 
   def user_photos(user_id, photo_count = 12)
-    flickr.photos.search(user_id: user_id).values_at(0..(photo_count -1))
+    flickr.photos.search(user_id: user_id, per_page: photo_count)
   end
 
-  def render_flickr_sidebar_widger(user_id, photo_count = 12, columns = 2)
+  def render_flickr_sidebar_widget(user_id, photo_count = 12, columns = 2)
     begin
-      photos = user_photos(user_id, photo_count).in_groups_of(2)
+      photos = user_photos(user_id, photo_count)
       render :partial => '/flickr/sidebar_widget', :locals => {:photos => photos}
     rescue Exception
-      render :partial => 'flickr/unavavailable'
+      render :partial => 'flickr/unavailable'
     end
   end
 end
